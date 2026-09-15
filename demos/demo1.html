@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Demo 1 – Basis-Morph</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                display: grid;
+                place-items: center;
+                min-height: 100vh;
+                background: #1e1e2e;
+                color: #cdd6f4;
+                margin: 0;
+            }
+        
+            button {
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+                border: none;
+                border-radius: 8px;
+                background: #89b4fa;
+                color: #1e1e2e;
+                cursor: pointer;
+            }
+        
+            .box {
+                width: 200px;
+                height: 200px;
+                background: #f38ba8;
+                border-radius: 16px;
+                display: grid;
+                place-items: center;
+                font-size: 2rem;
+                font-weight: bold;
+                color: #1e1e2e;
+            }
+        
+            .box.alt {
+                background: #a6e3a1;
+                width: 300px;
+                height: 120px;
+                border-radius: 60px;
+            }
+        </style>
+        
+    </head>
+
+    <body>
+        <div class="box" id="box">A</div>
+        <br>
+        <button id="toggle">Toggle State</button>
+
+        <script>
+            const box = document.getElementById('box');
+            const btn = document.getElementById('toggle');
+            let state = false;
+
+            btn.addEventListener('click', () => {
+                state = !state;
+
+                // Ohne View Transition: harter Sprung
+                // document.querySelector('.box').classList.toggle('alt', state);
+                // box.textContent = state ? 'B' : 'A';
+
+                // Mit View Transition: automatischer Morph
+                document.startViewTransition(() => {
+                    box.classList.toggle('alt', state);
+                    box.textContent = state ? 'B' : 'A';
+                });
+            });
+        </script>
+    </body>
+
+</html>

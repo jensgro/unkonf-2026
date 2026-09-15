@@ -33,29 +33,73 @@ Jens Grochtdreis | unkonf Mannheim, 2026
 
 <!--s-->
 
-## Headline
+## Agenda
 
-<!--v-->
-### Kleinere Headline
-
-<!--v-->
-### Headline
+1. API
+2. Pseudo-Elements
+3. Live Demo
 
 <!--s-->
-## Headline
+## Ausgangsproblem
 
+Bei einem Seitenwechel oder einem Wechsel des Zustands einer Seite (z.B. ein Modal öffnen) wird der alte Zustand sofort entfernt und der neue Zustand sofort angezeigt. Das kann zu einem unschönen „Ruckeln" führen.
+
+<!--v-->
+## Zwei Lösungen
+
+1. Auf der selben Seite bleiben und den Zustand wechseln (Same-Document View Transitions).
+2. Auf eine andere Seite wechseln und den Zustand wechseln (Cross-Document View Transitions).
+
+**View Transitions** sind eine neue API, die es ermöglicht, den Übergang zwischen zwei Zuständen einer Seite oder zwischen zwei Seiten zu animieren.
+
+<!--v-->
+
+## Browser support
+
+Auf der selben Seite ist die API bereits **Baseline** (seit Oktober 2025) und funktioniert in allen modernen Browsern. Für den Wechsel zwischen zwei Seiten ist die API noch nicht überall stabil (Firefox fehlt teilweise).
+
+Javascript ist nur nötig, wenn man die Animationen steuern oder die Pseudo-Elemente anpassen möchte. Ansonsten kann man die API auch ohne Javascript nutzen. 
+
+<!--s-->
+## Die API: `document.startViewTransition()` 
+
+* **So funktioniert es:**
+
+* Der Browser macht ein "Snapshot" des aktuellen Zustands.
+* Du löst das Update aus.
+* Der Browser macht ein "Snapshot" des neuen Zustands.
+* Er berechnet automatisch eine Morphing-Animation zwischen passenden Elementen.
+
+```javascript
+document.startViewTransition(() => {
+// Trigger DOM update here
+document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
+});
+```
+
+<!--v-->
+### Demo 1: einfaches morphen
+
+[Zeigt](demos/demo1.html), wie `startViewTransition()` ohne jegliches CSS automatisch morphed.
+
+<!--v-->
+## Demo 2: die neuen Pseudo-Elemente
+
+[Zeigt](demos/demo2.html), wie man mit benannten Gruppen die Animation gezielt steuert.
+
+<!--v-->
+
+## Demo 3: Kreativ-Effekt (Blur & Crossfade)
+
+[Zeigt](demos/demo3.html) einen „morphlosen" Übergang, bei dem der alte Zustand ausblendet und der neue mit Blur reinkommt.
+
+<!--v-->
+<!--v-->
 <!--v-->
 
 ### Ganz einfaches Styling
 
-<div class="splitted">
-  <div>
-  links
-  </div>
-  <div>
-    rechts
-  </div>
-</div>
+
 
 <!--v-->
 
@@ -67,6 +111,35 @@ Jens Grochtdreis | unkonf Mannheim, 2026
 
 <baseline-status featureId="view-transitions"></baseline-status>
 <baseline-status featureId="cross-document-view-transitions"></baseline-status>
+
+<!--s-->
+
+## Wichtige Links
+
+* **MDN Web Docs:** [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) – Die
+Referenz für beide Levels (Same-Document & Cross-Document).
+* **Jake Archibald (Google):** [The View Transitions API in
+2026](https://www.jakearchibald.com/2024/view-transitions-api/) – Die beste Quelle für Live-Demos und „Gotchas".
+* **UI Brainstorms:** [The View Transitions API in 2026:
+:active-view-transition](https://brainstormsandraves.com/css/view-transitions-2026/) – Exzellenter Überblick über den
+aktuellen Support (2026) und die Unterschiede zwischen Level 1 und 2[1].
+* **CSS-Tricks:** [Cross-Document View Transitions: The Gotchas Nobody
+Mentions](https://css-tricks.com/cross-document-view-transitions-part-1/) – Praktische Fehlervermeidung für Multi-Page-Apps.
+
+<!--v-->
+
+## Entwicklung & Debugging
+
+* **Chrome DevTools:**
+* Tab **„View Transitions"** (unter „Elements" oder „Performance").
+* Funktion: Zeigt das interne Shadow DOM, Snapshots und die Namen der Gruppen live an.
+* **CodeSandbox / StackBlitz:** Vorlagen suchen nach „CSS View Transitions" für schnelle Starts ohne Build-Tool.
+
+**4. Browser-Support Check (Live-Check)**
+* **Can I Use:** [View Transitions API](https://caniuse.com/css-view-transitions) – Täglicher Überblick über den aktuellen Status.
+* *Hinweis:* Same-Document ist seit Oktober 2025 **Baseline** und funktioniert in allen modernen Browsern.
+* *Achtung:* Cross-Document ist noch nicht überall stabil (Firefox fehlt teilweise)[1].
+
 
 <!--s-->
 

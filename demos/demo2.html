@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Demo 2 – Named Groups & Styling</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                min-height: 100vh;
+                background: #11111b;
+                color: #cdd6f4;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+            }
+        
+            .container {
+                width: 90%;
+                max-width: 700px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                min-height: 200px;
+                border: 2px dashed #45475a;
+                border-radius: 12px;
+                padding: 1rem;
+            }
+        
+            .card {
+                width: 100px;
+                height: 100px;
+                background: #cba6f7;
+                border-radius: 12px;
+                display: grid;
+                place-items: center;
+                font-weight: bold;
+                color: #11111b;
+                cursor: pointer;
+                /* NUR diese Zeile macht das Element morphbar */
+                view-transition-name: card;
+            }
+        
+            button {
+                padding: 0.8rem 1.6rem;
+                font-size: 1rem;
+                border: none;
+                border-radius: 8px;
+                background: #89b4fa;
+                color: #11111b;
+                cursor: pointer;
+            }
+        
+            /* === PSEUDO-ELEMENTE === */
+            /* Der Container der gemorpht wird */
+            ::view-transition-group(card) {
+                animation-duration: 0.8s;
+                animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            }
+        
+            /* Der alte Zustand: fade out + rotate */
+            ::view-transition-old(card) {
+                animation: fade-rotate-out 0.4s ease-in forwards;
+            }
+        
+            /* Der neue Zustand: fade in + scale */
+            ::view-transition-new(card) {
+                animation: scale-in 0.4s 0.4s ease-out forwards;
+            }
+        
+            @keyframes fade-rotate-out {
+                to {
+                    opacity: 0;
+                    transform: rotate(180deg) scale(0.5);
+                }
+            }
+        
+            @keyframes scale-in {
+                from {
+                    opacity: 0;
+                    transform: scale(0.5);
+                }
+        
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        </style>
+    </head>
+
+    <body id="demo2">
+        <div class="container">
+            <div class="card" id="card">🎴</div>
+            <!-- Zweiter Slot, damit Bewegung sichtbar wird -->
+            <div style="width:100px;height:100px;border:2px dashed #45475a;border-radius:12px;opacity:0.3;"></div>
+        </div>
+
+        <button id="swap">Karte wechseln</button>
+
+        <script>
+            const card = document.getElementById('card');
+            const container = document.querySelector('.container');
+            let swapped = false;
+
+            document.getElementById('swap').addEventListener('click', () => {
+                swapped = !swapped;
+                document.startViewTransition(() => {
+                    if (swapped) {
+                        // Karte ans Ende verschieben
+                        container.appendChild(card);
+                        card.style.background = '#f9e2af';
+                    } else {
+                        container.insertBefore(card, container.firstChild);
+                        card.style.background = '#cba6f7';
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>

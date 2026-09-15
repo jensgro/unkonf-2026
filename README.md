@@ -8,3 +8,17 @@ Neue Seiten werden mit ``<!--s-->`` für neue Kapitel und ``<!--v-->`` für neue
 
 Alle notwendigen Dateien existieren lokal. Die beiden persönlichen CSS-Dateien könnten evtl. noch einmal überarbeitet werden. Theoretisch könnte daraus ein darkmode-Theme werden.
 
+## Sonderlösung
+
+Eine zweigeteilte Ansicht erzeugen wir mit HTML:
+
+````html
+<div class="splitted">
+  <div>
+  links
+  </div>
+  <div>
+    rechts
+  </div>
+</div>
+````
