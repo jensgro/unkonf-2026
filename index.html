@@ -93,8 +93,23 @@ document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
 
 [Zeigt](demos/demo3.html) einen „morphlosen" Übergang, bei dem der alte Zustand ausblendet und der neue mit Blur reinkommt.
 
+<!--s-->
+
+## Die neuen Pseudoelemente
+
+1. `::view-transition-group(group-name)`: Der Container für ein spezifisches Element.
+2. `::view-transition-old(name)`: Der "alte" Zustand des Elements.
+3. `::view-transition-new(name)`: Der "neue" Zustand des Elements.
+
+**Wichtig:** 
+- Nur Elemente mit `view-transition-name` werden animiert. Alle anderen Elemente werden sofort ersetzt. 
+- Die Pseudo-Elemente sind nur für die Animation zuständig. Sie haben keine eigene Logik.
+- Die Pseudo-Elemente können mit CSS-Animationen oder Transitionen animiert werden.
+- Die Pseudo-Elemente können auch mit `mix-blend-mode` kombiniert werden, um kreative Effekte zu erzielen.
+- Die Zustände sind Snapshots, also Bilder der Elemente. Sie können nicht direkt manipuliert werden, sondern nur über CSS.
+
 <!--v-->
-<!--v-->
+
 <!--v-->
 
 ### Ganz einfaches Styling
@@ -103,7 +118,22 @@ document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
 
 <!--v-->
 
-## Headline
+## Wo View Transitions greifen
+
+<dl>
+  <dt>Navigation</dt>
+  <dd>Seitenwechsel, Tab-Umschaltung, Routing</dd>
+
+  <dt>Interaktionen</dt>
+  <dd>Filter, Favoriten, Modals, Karten-Details</dd>
+
+  <dt>State-Umschaltungen</dt>
+  <dd>Dark Mode, Layout-Mode, Produktstatus</dd>
+
+  <dt>Special Effects</dt>
+  <dd>Morphing von Icons, Chips, Bildern oder Panels</dd>
+
+</dl>
 
 <!--v-->
 
