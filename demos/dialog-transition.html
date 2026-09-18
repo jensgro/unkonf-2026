@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>dialog view-transition </title>
+    <!-- original: https://codepen.io/fgeierst/pen/LEYaJqo -->
+    <style>
+      :root {
+        --duration: 1s;
+      }
+
+      dialog {
+        view-transition-name: dialog;
+        max-width: 20rem;
+      }
+
+      ::view-transition-new(dialog) {
+        animation: scale-in var(--duration) ease-out;
+      }
+
+      ::view-transition-old(dialog) {
+        animation: scale-out var(--duration) ease-in;
+      }
+
+      @keyframes scale-in {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+      }
+
+      @keyframes scale-out {
+        to {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+      }
+
+      dialog[open]::backdrop {
+        background-color: black;
+        opacity: 0.5;
+      }
+
+      ::view-transition-new(root) {
+        animation: fade-in var(--duration) ease;
+      }
+
+      ::view-transition-old(root) {
+        animation: fade-out var(--duration) ease;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fade-out {
+        to {
+          opacity: 0;
+        }
+      }
+      
+      /* ========= Basics ========== */
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 1.125rem;
+      }
+
+
+      button {
+        background-color: maroon;
+        color: #fff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        padding: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        
+        &:hover, &:focus {
+          background-color: rgb(192 0 0 / 0.75);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button id="openButton">Open</button>
+
+    <dialog id="myDialog">
+      <p>Bavaria ipsum dolor sit amet is ma Wuascht fei amoi Graudwiggal iwan Tisch ziagn nia need i waar soweid! I hob di narrisch gean Gstanzl Guglhupf etza Wurschtsolod hoam. Mechad wia da Buachbinda Wanninger nia need vui huift vui Resi. Ned a geh ozapfa sog i um Godds wujn. Schaung kost nix Breihaus guad, i moan oiwei: Es hawadere midananda dahoam auf der Oim da gibt’s koa Sünd Fingahaggln Leonhardifahrt griasd eich midnand, Schdarmbeaga See heitzdog.</p>
+      <button id="closeButton">Close</button>
+    </dialog>
+
+    <script>
+      openButton.addEventListener("click", () =>
+        viewTransition(() => myDialog.showModal())
+      );
+
+      closeButton.addEventListener("click", () =>
+        viewTransition(() => myDialog.close())
+      );
+
+      function viewTransition(action) {
+        if (!document.startViewTransition) {
+          action();
+          return;
+        }
+        document.startViewTransition(() => action());
+      }
+    </script>
+  </body>
+</html>

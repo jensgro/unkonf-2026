@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>view-transition local dev prototype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- original: https://codepen.io/argyleink/pen/QWBgEmK -->
+    <style>
+      @layer demo {
+        pre {
+          view-transition-name: demo-pre;
+        }
+
+        h1 {
+          view-transition-name: demo;
+        }
+      }
+
+
+      @layer demo.support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+          view-transition-name: none;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+          place-items: center;
+        }
+
+        pre {
+          font-size: 1.5rem;
+          padding: 1.5rem 2rem;
+          background: hsl(280 10% 50% / 10%);
+          border-radius: 10px;
+          max-inline-size: -webkit-max-content;
+          max-inline-size: -moz-max-content;
+          max-inline-size: max-content;
+        }
+
+        code {
+          font-family: monospace;
+          font-weight: bold;
+        }
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <style id="pre-target"></style>
+
+    <h1>view transitions</h1>
+
+    <pre contentEditable>
+<code>h1 {
+    margin-block-end: 2rem;
+}</code></pre>
+
+    <script>
+      function copyPreToStyle() {
+          if (document.startViewTransition) {
+            document.startViewTransition(() => {
+              document.querySelector('#pre-target').textContent = document.querySelector('pre').textContent;
+            });
+          } else
+
+            document.querySelector('#pre-target').textContent = document.querySelector('pre').textContent;
+        }
+
+        document.querySelector('pre').addEventListener('keyup', e => {
+          clearTimeout(e.target.debouncer);
+          e.target.debouncer = setTimeout(copyPreToStyle, 500);
+        });
+
+        copyPreToStyle();
+    </script>
+
+  </body>
+
+</html>

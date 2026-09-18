@@ -63,35 +63,56 @@ Javascript ist nur nötig, wenn man die Animationen steuern oder die Pseudo-Elem
 <!--s-->
 ## Die API: `document.startViewTransition()` 
 
-* **So funktioniert es:**
-
 * Der Browser macht ein "Snapshot" des aktuellen Zustands.
-* Du löst das Update aus.
 * Der Browser macht ein "Snapshot" des neuen Zustands.
 * Er berechnet automatisch eine Morphing-Animation zwischen passenden Elementen.
 
 ```javascript
 document.startViewTransition(() => {
-// Trigger DOM update here
-document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
+  // Trigger DOM update here
+  document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
 });
 ```
 
 <!--v-->
 ### Demo 1: einfaches morphen
 
-[Zeigt](demos/demo1.html), wie `startViewTransition()` ohne jegliches CSS automatisch morphed.
+[Zeigt](demos/einfaches-morphen.html), wie `startViewTransition()` ohne jegliches CSS automatisch morphed.
 
 <!--v-->
-## Demo 2: die neuen Pseudo-Elemente
+### Demo 2: einfaches morphen für einen Zweck
 
-[Zeigt](demos/demo2.html), wie man mit benannten Gruppen die Animation gezielt steuert.
+- [Code-Manipulation](demos/view-transition-local-dev-prototype.html) mit direkter Demonstration
+- [Eine Galerie](https://codepen.io/argyleink/full/KwVdQmb) (auf Codepen)
 
 <!--v-->
 
-## Demo 3: Kreativ-Effekt (Blur & Crossfade)
+### Es werden Bilder gemorpht
 
-[Zeigt](demos/demo3.html) einen „morphlosen" Übergang, bei dem der alte Zustand ausblendet und der neue mit Blur reinkommt.
+Da die Snapshots und nicht die Elemente gemorpht werden, kann aus einem Bild oder einem Button auch ohne Probleme ein Modalfenster werden. Das zeigt [Adam Argyle](https://codepen.io/argyleink/full/qEWeYzd) auf Codepen.
+
+<!--v-->
+
+### Weitere Beispiele 
+
+- [Animierte Zahlen](https://codepen.io/argyleink/full/jOQKdeW) (von Adam Argyle)
+- [Anzahl der Grid-Items ändern](https://codepen.io/argyleink/full/ZYQbroz) (von Adam Argyle)
+- [animiertes Tabinterface 1](https://codepen.io/ghaste/full/MWNgaWm) (von Amit Ghaste)
+- [animiertes Tabinterface 2](https://codepen.io/Ducs/full/RNwGBpE) (von Descamps)
+
+
+<!--v-->
+
+<!--v-->
+## Demo 3: die neuen Pseudo-Elemente
+
+[Zeigt](demos/die-neuen-pseudoelemente.html), wie man mit benannten Gruppen die Animation gezielt steuert.
+
+<!--v-->
+
+## Demo 4: Kreativ-Effekt (Blur & Crossfade)
+
+[Zeigt](demos/blur-crossfade.html) einen „morphlosen" Übergang, bei dem der alte Zustand ausblendet und der neue mit Blur reinkommt.
 
 <!--s-->
 
@@ -146,29 +167,27 @@ document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
 
 ## Wichtige Links
 
-* **MDN Web Docs:** [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) – Die
-Referenz für beide Levels (Same-Document & Cross-Document).
-* **Jake Archibald (Google):** [The View Transitions API in
-2026](https://www.jakearchibald.com/2024/view-transitions-api/) – Die beste Quelle für Live-Demos und „Gotchas".
+* **MDN Web Docs:** [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) – Die Referenz für beide Levels (Same-Document & Cross-Document).
+* **Bramus Van Damme (Google):**  [Massenweise Beispiele](https://view-transitions.chrome.dev) 
+* **Chrome Developers:** [View Transitions API](https://developer.chrome.com/docs/web-platform/view-transitions/) – Offizielle Dokumentation und Beispiele von Google Chrome.
 * **UI Brainstorms:** [The View Transitions API in 2026:
-:active-view-transition](https://brainstormsandraves.com/css/view-transitions-2026/) – Exzellenter Überblick über den
-aktuellen Support (2026) und die Unterschiede zwischen Level 1 und 2[1].
-* **CSS-Tricks:** [Cross-Document View Transitions: The Gotchas Nobody
-Mentions](https://css-tricks.com/cross-document-view-transitions-part-1/) – Praktische Fehlervermeidung für Multi-Page-Apps.
+:active-view-transition](https://brainstormsandraves.com/css/view-transitions-2026/) – Überblick über den aktuellen Support (2026) und die Unterschiede zwischen Level 1 und 2.
+* **CSS-Tricks:** [Cross-Document View Transitions: The Gotchas Nobody Mentions](https://css-tricks.com/cross-document-view-transitions-part-1/) – Praktische Fehlervermeidung für Multi-Page-Apps.
+* **CSS-Tricks:** [Cross-Document View Transitions: Scaling Across Hundreds of Elements](https://css-tricks.com/cross-document-view-transitions-part-2/) 
+
 
 <!--v-->
 
 ## Entwicklung & Debugging
 
-* **Chrome DevTools:**
-* Tab **„View Transitions"** (unter „Elements" oder „Performance").
-* Funktion: Zeigt das interne Shadow DOM, Snapshots und die Namen der Gruppen live an.
-* **CodeSandbox / StackBlitz:** Vorlagen suchen nach „CSS View Transitions" für schnelle Starts ohne Build-Tool.
+In den **Chrome DevTools** im Tab **"View Transitions"** (unter "Elements" oder "Performance") nutzen. Hier sieht man die Snapshots und die Namen der Gruppen, also die neuen Pseudoelemente.
 
-**4. Browser-Support Check (Live-Check)**
-* **Can I Use:** [View Transitions API](https://caniuse.com/css-view-transitions) – Täglicher Überblick über den aktuellen Status.
+
+Auf [Can I Use](https://caniuse.com/css-view-transitions) kann man sich den aktuellen Support für die View Transitions API anzeigen lassen.
 * *Hinweis:* Same-Document ist seit Oktober 2025 **Baseline** und funktioniert in allen modernen Browsern.
 * *Achtung:* Cross-Document ist noch nicht überall stabil (Firefox fehlt teilweise)[1].
+
+**[Seitenübergänge](https://page-transitions.style)** wie im IE5.5
 
 
 <!--s-->
