@@ -284,6 +284,9 @@ section.has-dark-background h6 {
   margin: auto;
   border-collapse: collapse;
   border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.5em;
 }
 
 .reveal table th {
