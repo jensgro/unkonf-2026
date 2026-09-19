@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ein- und Ausblenden eines Dialogs</title>
+</head>
+<body>
+    <button id="open">Dialog öffnen</button>
+    
+    <dialog id="dialog">
+        <p>Das ist ein Dialog.</p>
+        <button id="close">Schließen</button>
+    </dialog>
+    
+    <script>
+        const dialog = document.querySelector("#dialog");
+
+        document.querySelector("#open").addEventListener("click", () => {
+            document.startViewTransition?.(() => dialog.showModal());
+        });
+
+        document.querySelector("#close").addEventListener("click", () => {
+            document.startViewTransition?.(() => dialog.close());
+        });
+    </script>
+    
+    <style>
+        dialog {
+            view-transition-name: dialog;
+        }
+    
+        ::view-transition-old(dialog),
+        ::view-transition-new(dialog) {
+            animation-duration: 200ms;
+        }
+    
+        ::view-transition-old(dialog) {
+            animation-name: scale-out;
+        }
+    
+        ::view-transition-new(dialog) {
+            animation-name: scale-in;
+        }
+    
+        @keyframes scale-in {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    
+        @keyframes scale-out {
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+
+</body>
+</html>
