@@ -19,6 +19,9 @@
         display: block;
         margin-block: 20px;
       }
+      dd + dt {
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -40,106 +43,19 @@ Jens Grochtdreis | unkonf Mannheim, 2026
 3. Live Demo
 
 <!--s-->
-## Ausgangsproblem
+## Das Ausgangsproblem
 
-Bei einem Seitenwechel oder einem Wechsel des Zustands einer Seite (z.B. ein Modal öffnen) wird der alte Zustand sofort entfernt und der neue Zustand sofort angezeigt. Das kann zu einem unschönen „Ruckeln" führen.
+Bei einem Seitenwechel oder einem Wechsel des Zustands einer Seite (z.B. ein Modal öffnen) passiert der Wechsel sofort. Das kann zu einem unschönen "Ruckeln" führen.
 
 <!--v-->
-## Zwei Lösungen
+### Zwei Lösungen
 
-1. Auf der selben Seite bleiben und den Zustand wechseln (Same-Document View Transitions).
-2. Auf eine andere Seite wechseln und den Zustand wechseln (Cross-Document View Transitions).
-
-**View Transitions** sind eine neue API, die es ermöglicht, den Übergang zwischen zwei Zuständen einer Seite oder zwischen zwei Seiten zu animieren.
+1. Auf der selben Seite bleiben und animieren (Same-Document View Transitions).
+2. Auf eine andere Seite wechseln und dabei animieren (Cross-Document View Transitions).
 
 <!--v-->
 
-## Browser support
-
-Auf der selben Seite ist die API bereits **Baseline** (seit Oktober 2025) und funktioniert in allen modernen Browsern. Für den Wechsel zwischen zwei Seiten ist die API noch nicht überall stabil (Firefox fehlt teilweise).
-
-Javascript ist nur nötig, wenn man die Animationen steuern oder die Pseudo-Elemente anpassen möchte. Ansonsten kann man die API auch ohne Javascript nutzen. 
-
-<!--s-->
-## Die API: `document.startViewTransition()` 
-
-* Der Browser macht ein "Snapshot" des aktuellen Zustands.
-* Der Browser macht ein "Snapshot" des neuen Zustands.
-* Er berechnet automatisch eine Morphing-Animation zwischen passenden Elementen.
-
-```javascript
-document.startViewTransition(() => {
-  // Trigger DOM update here
-  document.body.innerHTML = '<h1>Neuer Inhalt</h1>';
-});
-```
-
-<!--v-->
-### Demo 1: einfaches morphen
-
-[Zeigt](demos/einfaches-morphen.html), wie `startViewTransition()` ohne jegliches CSS automatisch morphed.
-
-<!--v-->
-### Demo 2: einfaches morphen für einen Zweck
-
-- [Code-Manipulation](demos/view-transition-local-dev-prototype.html) mit direkter Demonstration
-- [Eine Galerie](https://codepen.io/argyleink/full/KwVdQmb) (auf Codepen)
-
-<!--v-->
-
-### Es werden Bilder gemorpht
-
-Da die Snapshots und nicht die Elemente gemorpht werden, kann aus einem Bild oder einem Button auch ohne Probleme ein Modalfenster werden. Das zeigt [Adam Argyle](https://codepen.io/argyleink/full/qEWeYzd) auf Codepen.
-
-<!--v-->
-
-### Weitere Beispiele 
-
-- [Animierte Zahlen](https://codepen.io/argyleink/full/jOQKdeW) (von Adam Argyle)
-- [Anzahl der Grid-Items ändern](https://codepen.io/argyleink/full/ZYQbroz) (von Adam Argyle)
-- [animiertes Tabinterface 1](https://codepen.io/ghaste/full/MWNgaWm) (von Amit Ghaste)
-- [animiertes Tabinterface 2](https://codepen.io/Ducs/full/RNwGBpE) (von Descamps)
-
-
-<!--v-->
-
-<!--v-->
-## Demo 3: die neuen Pseudo-Elemente
-
-[Zeigt](demos/die-neuen-pseudoelemente.html), wie man mit benannten Gruppen die Animation gezielt steuert.
-
-<!--v-->
-
-## Demo 4: Kreativ-Effekt (Blur & Crossfade)
-
-[Zeigt](demos/blur-crossfade.html) einen „morphlosen" Übergang, bei dem der alte Zustand ausblendet und der neue mit Blur reinkommt.
-
-<!--s-->
-
-## Die neuen Pseudoelemente
-
-1. `::view-transition-group(group-name)`: Der Container für ein spezifisches Element.
-2. `::view-transition-old(name)`: Der "alte" Zustand des Elements.
-3. `::view-transition-new(name)`: Der "neue" Zustand des Elements.
-
-**Wichtig:** 
-- Nur Elemente mit `view-transition-name` werden animiert. Alle anderen Elemente werden sofort ersetzt. 
-- Die Pseudo-Elemente sind nur für die Animation zuständig. Sie haben keine eigene Logik.
-- Die Pseudo-Elemente können mit CSS-Animationen oder Transitionen animiert werden.
-- Die Pseudo-Elemente können auch mit `mix-blend-mode` kombiniert werden, um kreative Effekte zu erzielen.
-- Die Zustände sind Snapshots, also Bilder der Elemente. Sie können nicht direkt manipuliert werden, sondern nur über CSS.
-
-<!--v-->
-
-<!--v-->
-
-### Ganz einfaches Styling
-
-
-
-<!--v-->
-
-## Wo View Transitions greifen
+### Wo View Transitions greifen
 
 <dl>
   <dt>Navigation</dt>
@@ -158,13 +74,220 @@ Da die Snapshots und nicht die Elemente gemorpht werden, kann aus einem Bild ode
 
 <!--v-->
 
-### Baseline Status
+### Die neue API
 
+**[View Transitions](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)** regeln den Übergang zwischen zwei Zuständen einer Seite oder zwischen zwei Seiten.
+
+Javascript ist nur nötig, wenn man die Animationen steuern möchte und wenn man auf der selben Seite bleibt. Zwischen Seiten kann man die API auch ohne Javascript nutzen. 
+
+<!--v-->
+
+### Browser support
+
+Same-Document View Transitions sind seit Oktober 2025 **Baseline**. Cross-Document View Transitions bietet Firefox leider noch nicht.
+
+<!-- features-ID: https://github.com/web-platform-dx/web-features/tree/main/features -->
 <baseline-status featureId="view-transitions"></baseline-status>
+<baseline-status featureId="view-transition-class"></baseline-status>
 <baseline-status featureId="cross-document-view-transitions"></baseline-status>
+
+<!--v-->
+
+### Snapshots sind die Grundlage
+
+* "Snapshot" des aktuellen Zustands
+* "Snapshot" des neuen Zustands
+* Automatische Erstellung einer Morphing-Animation zwischen passenden Elementen
+<!--s-->
+
+## Same-Document 
+
+Für Same-Document View Transitions bleibt man auf derselben Seite und animiert den Übergang zwischen zwei Zuständen. Zum Triggern der Animation benötigen wir JavaScript:
+
+```javascript
+// Ein- und Ausblenden eines Dialogs
+const dialog = document.querySelector("#dialog");
+document.querySelector("#open").addEventListener("click", () => {
+    document.startViewTransition?.(() => dialog.showModal());
+});
+document.querySelector("#close").addEventListener("click", () => {
+    document.startViewTransition?.(() => dialog.close());
+});
+
+```
+
+<!--v-->
+### Demo 1: einfaches morphen
+
+[Zeigt](demos/einfaches-morphen.html), wie `startViewTransition()` ohne jegliches CSS automatisch morphed.
+
+<!--v-->
+### Demo 2: einfaches morphen für einen Zweck
+
+- [Code-Manipulation](demos/view-transition-local-dev-prototype.html) mit direkter Demonstration
+- [Eine Galerie](https://codepen.io/jensgro/full/ogZBQQz) (auf Codepen)
+
+<!--v-->
+
+### Es werden Bilder gemorpht
+
+Da die Snapshots und nicht die Elemente gemorpht werden, kann aus einem Bild oder einem Button auch ohne Probleme ein Modalfenster werden. Das zeigt [Adam Argyle](https://codepen.io/argyleink/full/qEWeYzd) auf Codepen.
+
+<!--v-->
+
+### Weitere Beispiele 
+
+- [Animierte Zahlen](https://codepen.io/argyleink/full/jOQKdeW) (von Adam Argyle)
+- [Anzahl der Grid-Items ändern](https://codepen.io/jensgro/pen/wBJgQNX) (von Adam Argyle)
+- [animiertes Tabinterface 1](https://codepen.io/ghaste/full/MWNgaWm) (von Amit Ghaste)
+- [animiertes Tabinterface 2](https://codepen.io/Ducs/full/RNwGBpE) (von Descamps)
 
 <!--s-->
 
+## Die neuen Pseudoelemente
+
+<dl>
+  <dt><code>::view-transition-group(group-name)</code></dt>
+  <dd>Der Container für ein spezifisches Element.</dd>
+  <dt><code>::view-transition-old(name)</code></dt>
+  <dd>Der "alte" Zustand des Elements.</dd>
+  <dt><code>::view-transition-new(name)</code></dt>
+  <dd>Der "neue" Zustand des Elements.</dd>
+</dl>
+
+<!--v-->
+
+### Wichtiges zu den Pseudo-Elementen
+
+- Nur Elemente mit dem passenden `view-transition-name` werden animiert. Alle anderen Elemente werden sofort ersetzt. 
+- Sie sind nur für die Animation zuständig und haben keine eigene Logik.
+- Sie können mit CSS-Animationen oder Transitionen animiert werden.
+- Sie können auch mit `mix-blend-mode` kombiniert werden, um kreative Effekte zu erzielen.
+- Die Zustände sind **Snapshots**, also Bilder der Elemente. 
+<!--v-->
+### Ein Beispiel
+
+```css
+.card {
+    /* NUR diese Zeile macht das Element morphbar */
+    view-transition-name: card;
+}
+/* Der Container der gemorpht wird */
+::view-transition-group(card) {
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+/* Der alte Zustand: fade out + rotate */
+::view-transition-old(card) {
+    animation: fade-rotate-out 0.4s ease-in forwards;
+}
+/* Der neue Zustand: fade in + scale */
+::view-transition-new(card) {
+    animation: scale-in 0.4s 0.4s ease-out forwards;
+}
+```
+
+Mit [benannten Gruppen](demos/die-neuen-pseudoelemente.html) die Animation gezielt steuern.
+
+<!--v-->
+
+### Blur & Crossfade
+
+Dieses Beispiel lässt den [alten Zustand ausblenden und den neuen mit Blur erscheinen](demos/blur-crossfade.html).
+
+<!--s-->
+
+## View-Transitions zwischen Seiten
+
+View-Transitions können auch beim Wechsel zwischen verschiedenen Seiten genutzt werden. Dabei werden die Snapshots der Elemente auf der alten Seite mit denen auf der neuen Seite gemorpht, sofern die `view-transition-name` übereinstimmen.
+
+Dafür benötigen wir nur CSS.
+
+[Im CSS des ersten Beispiels](demos/vt-1.html) können wir mit ein paar Modifikationen die Animation anpassen.
+<!--v-->
+
+### Wir merken uns
+
+```css
+/* Das triggert die View-Transition beim Seitenwechsel */
+@view-transition {
+    navigation: auto;
+}
+```
+Wenn wir es gut machen wollen:
+```css
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+```
+Der Standardübergang ist ein **cross-fade**.
+
+<!--v-->
+
+### Ein eigener Cross-fade
+
+```css
+::view-transition-old(root) { animation: fade-out 0.3s ease both;}
+::view-transition-new(root) { animation: fade-in 0.3s ease both;}
+
+@keyframes fade-out {
+  to {opacity: 0; }
+}
+@keyframes fade-in {
+  from {opacity: 0;}
+}
+```
+[Eigene Animation erstellen (lassen)](https://tools.digrart.jp/de/css-view-transition-generator/)
+
+<!--v-->
+### Inhalte animieren, nicht ganze Seiten
+
+- [nur die Bilder eines Teasers](demos/vt-2.html)
+- [Bilder und Headlines eines Teasers](demos/vt-3.html)
+
+<!--v-->
+
+### Während der Animation
+
+Während der Animation können wir Elementegezielt stylen, z. B. um sie hervorzuheben oder auszublenden:
+
+```css
+h2 {
+  display: none;
+  color: white;
+}
+root:active-view-transition h2 {
+  display: block;
+}
+html:active-view-transition button {
+  visibility: hidden;
+}
+```
+`:active-view-transition` ist die Pseudo-Klasse, die während der Animation aktiv ist. Sie bezieht sich immer auf das Root-Element, also auf das `<html>`-Element.
+
+<!--s-->
+
+## Ziemlich geniale Beispiele
+
+- [Cards](https://live-transitions.pages.dev) deren Inhalt beim Wechsel zwischen den Karten animiert wird.
+- Mit modernen Methoden [Seitenübergänge wie im IE5.5](https://page-transitions.style) erzeugen.
+
+<!--v-->
+
+###  Glossar – Die wichtigsten Begriffe & Selektoren
+
+| Begriff / Selektor | Was es ist | Wann du es nutzt |
+|---|---|---|
+| **`document.startViewTransition()`** | JS-API zum Auslösen | Immer bei Same-Document (SPA, Tabs, Filter) |
+| **`view-transition-name`** | CSS-Property am Element | **Pflicht**, damit der Browser das Element morphen kann |
+| **`::view-transition-group(name)`** | Container der Animation | Steuert Timing, Dauer, Easing (die „Hülle") |
+| **`::view-transition-old(name)`** | Der „alte" Zustand (Snapshot) | Styling des Ausgangsbilds (z. B. `opacity: 0`, `rotate`) |
+| **`::view-transition-new(name)`** | Der „neue" Zustand (Snapshot) | Styling des Zielbilds (z. B. `scale(0.5)` → `scale(1)`) |
+| **`@view-transition`** | CSS-At-Rule (Cross-Document) | **Nur** bei echter Navigation zwischen HTML-Dateien |
+| **`:active-view-transition`** | Pseudo-Klasse | Möglichkeit, Elemente während der Animation zu stylen |
+<!--v-->
 ## Wichtige Links
 
 * **MDN Web Docs:** [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) – Die Referenz für beide Levels (Same-Document & Cross-Document).
@@ -183,15 +306,6 @@ Da die Snapshots und nicht die Elemente gemorpht werden, kann aus einem Bild ode
 In den **Chrome DevTools** im Tab **"View Transitions"** (unter "Elements" oder "Performance") nutzen. Hier sieht man die Snapshots und die Namen der Gruppen, also die neuen Pseudoelemente.
 
 
-Auf [Can I Use](https://caniuse.com/css-view-transitions) kann man sich den aktuellen Support für die View Transitions API anzeigen lassen.
-* *Hinweis:* Same-Document ist seit Oktober 2025 **Baseline** und funktioniert in allen modernen Browsern.
-* *Achtung:* Cross-Document ist noch nicht überall stabil (Firefox fehlt teilweise)[1].
-
-**[Seitenübergänge](https://page-transitions.style)** wie im IE5.5
-
-
-<!--s-->
-
 ## Das war's
 
 ![Donald Duck verbeugt sich vor klatschenden Pinguinen](images/klatsch-klatsch-klatsch.jpg)
@@ -204,6 +318,21 @@ Auf [Can I Use](https://caniuse.com/css-view-transitions) kann man sich den aktu
     <li><a href="https://mastodon.social/@jensgro">@jensgro@mastodon.social</a></li>
   </ul>
 </div>
+
+<!--s-->
+
+## EINEN hab' ich noch: FAQ
+
+<!--v-->
+
+
+
+<!--v-->
+
+
+
+<!--s-->
+
 
           </textarea>
         </section>
@@ -277,6 +406,15 @@ Auf [Can I Use](https://caniuse.com/css-view-transitions) kann man sich den aktu
       }
       Reveal.addEventListener('ready', cb);
       Reveal.addEventListener('slidetransitionend', cb);
+    </script>
+    <script>
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        const links = section.querySelectorAll('a');
+        links.forEach(link => {
+          link.setAttribute('target', '_blank');
+        });
+      });
     </script>
   </body>
 </html>
