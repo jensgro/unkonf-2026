@@ -249,7 +249,8 @@ section.has-dark-background h6 {
   font-family: var(--r-code-font);
   line-height: 1.2em;
   word-wrap: break-word;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); */
+  border: 5px solid rgb(253 135 0 / 0.5)
 }
 
 .reveal code {
